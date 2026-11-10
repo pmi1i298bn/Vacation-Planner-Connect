@@ -14,7 +14,7 @@
       p { color: #586174; line-height: 1.5; }
       label { display: block; margin: 18px 0 6px; font-weight: 650; }
       input { box-sizing: border-box; width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccd0d9; font: inherit; }
-      .buttons { display: flex; gap: 10px; margin-top: 22px; }
+      .buttons { display: flex; gap: 10px; margin-top: 22px; } [hidden] { display: none !important; }
       button { flex: 1; padding: 12px; border: 0; border-radius: 11px; font: inherit; font-weight: 700; cursor: pointer; }
       .primary { color: white; background: #5b5fef; }
       .secondary { color: #343b4c; background: #eceef4; }
@@ -67,7 +67,7 @@
         if (session) {
           const { data, error } = await supabase.auth.oauth.getAuthorizationDetails(authorizationId)
           if (error) status.textContent = error.message
-          if (data) {
+          if (data) { if (data.redirect_url) { location.assign(data.redirect_url); return }
             const clientName = data.client?.name ?? 'ChatGPT'
             const scopes = data.scope ? ` Requested access: ${data.scope.split(' ').join(', ')}.` : ''
             request.textContent = `${clientName} is requesting permission to connect.${scopes}`
